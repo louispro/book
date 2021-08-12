@@ -1,10 +1,10 @@
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" language="java"%>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>购物车</title>
-<base href="http://localhost:8080/BookStore02/">
-<link type="text/css" rel="stylesheet" href="static/css/style.css" >
+	<!--静态包含base标签，css，js-->
+	<%@ include file="/pages/common/head.jsp"%>
 </head>
 <body>
 	
@@ -63,11 +63,8 @@
 		</div>
 	
 	</div>
-	
-	<div id="bottom">
-		<span>
-			尚硅谷书城.Copyright &copy;2015
-		</span>
-	</div>
+
+	<!--静态包含页脚-->
+	<%@ include file="/pages/common/footer.jsp"%>
 </body>
 </html>
