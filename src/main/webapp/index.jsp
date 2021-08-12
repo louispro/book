@@ -34,7 +34,7 @@
 			</div>
 			<div class="b_list">
 				<div class="img_div">
-					<img class="book_img" alt="" src="static/img/default.jpg" />
+					<img class="book_img" alt="" src="static/img/book/default.jpg" />
 				</div>
 				<div class="book_info">
 					<div class="book_name">
@@ -65,7 +65,7 @@
 			
 			<div class="b_list">
 				<div class="img_div">
-					<img class="book_img" alt="" src="static/img/default.jpg" />
+					<img class="book_img" alt="" src="static/img/book/default.jpg" />
 				</div>
 				<div class="book_info">
 					<div class="book_name">
@@ -96,7 +96,7 @@
 			
 			<div class="b_list">
 				<div class="img_div">
-					<img class="book_img" alt="" src="static/img/default.jpg" />
+					<img class="book_img" alt="" src="static/img/book/default.jpg" />
 				</div>
 				<div class="book_info">
 					<div class="book_name">
@@ -127,7 +127,7 @@
 			
 			<div class="b_list">
 				<div class="img_div">
-					<img class="book_img" alt="" src="static/img/default.jpg" />
+					<img class="book_img" alt="" src="static/img/book/default.jpg" />
 				</div>
 				<div class="book_info">
 					<div class="book_name">

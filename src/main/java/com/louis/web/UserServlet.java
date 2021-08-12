@@ -2,22 +2,22 @@ package com.louis.web;
 
 import com.louis.bean.User;
 import com.louis.service.impl.UserServiceImpl;
+import com.louis.utils.WebUtils;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RegistServlet extends HttpServlet {
+/**
+ * @赖小燚
+ * @www.louis_lai.com
+ */
+public class UserServlet extends BaseServlet{
 
     private UserServiceImpl userService = new UserServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -28,7 +28,8 @@ public class RegistServlet extends HttpServlet {
             //验证用户名是否可用
             //可用
             if(userService.existsUsername(username)==false){
-                userService.register(new User(null,username,password,email));
+                User user = WebUtils.copyParamsToBean(request.getParameterMap(),new User());
+                userService.register(user);
                 request.getRequestDispatcher("/pages/user/regist_success.jsp").forward(request,response);
             }else{
                 //不可用
@@ -44,4 +45,17 @@ public class RegistServlet extends HttpServlet {
         }
     }
 
+    protected  void login(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = userService.login(WebUtils.copyParamsToBean(request.getParameterMap(),new User()));
+        if(user==null){
+            request.setAttribute("msg","用户名或密码错误");
+            request.setAttribute("username",username);
+            request.setAttribute("password",password);
+            request.getRequestDispatcher("/pages/user/login.jsp").forward(request,response);
+        }else {
+            request.getRequestDispatcher("/pages/user/login_success.jsp").forward(request,response);
+        }
+    }
 }
