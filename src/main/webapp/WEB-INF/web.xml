@@ -23,6 +23,16 @@
 <!--    <servlet-name>LoginServlet</servlet-name>-->
 <!--    <url-pattern>/login</url-pattern>-->
 <!--  </servlet-mapping>-->
+
+  <servlet>
+    <servlet-name>BaseServlet</servlet-name>
+    <servlet-class>com.louis.web.BaseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BaseServlet</servlet-name>
+    <url-pattern>/base</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>UserServlet</servlet-name>
     <servlet-class>com.louis.web.UserServlet</servlet-class>
@@ -38,16 +48,8 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BookServlet</servlet-name>
-    <url-pattern>/book</url-pattern>
+    <url-pattern>/manager/book</url-pattern>
   </servlet-mapping>
 
 
-  <servlet>
-    <servlet-name>BaseServlet</servlet-name>
-    <servlet-class>com.louis.web.BaseServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>BaseServlet</servlet-name>
-    <url-pattern>/base</url-pattern>
-  </servlet-mapping>
 </web-app>
