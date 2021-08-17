@@ -1,6 +1,7 @@
 package com.louis.service.impl;
 
 import com.louis.bean.Book;
+import com.louis.bean.Page;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -41,5 +42,11 @@ public class BookServiceImplTest {
         for (Book book : bookList) {
             System.out.println(book);
         }
+    }
+
+    @Test
+    public void page() {
+        Page<Book> page = bookService.page(1,4);
+        System.out.println(page);
     }
 }

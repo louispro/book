@@ -23,4 +23,10 @@ public class WebUtils {
         }
         return bean;
     }
+
+    public static Integer parseInt(String param,int defaultValue){
+        if(param==null)
+            return defaultValue;
+        return Integer.parseInt(param);
+    }
 }

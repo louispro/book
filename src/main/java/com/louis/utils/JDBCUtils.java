@@ -51,7 +51,7 @@ public class JDBCUtils {
      * 关闭数据库连接
      * @param conn
      */
-    public void close(Connection conn){
+    public static void close(Connection conn){
         if(conn!=null){
             try {
                 conn.close();

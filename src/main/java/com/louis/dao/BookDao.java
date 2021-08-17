@@ -1,6 +1,7 @@
 package com.louis.dao;
 
 import com.louis.bean.Book;
+import com.louis.bean.Page;
 
 import java.util.List;
 
@@ -39,4 +40,18 @@ public interface BookDao {
      * @return 返回一个图书集合
      */
     List<Book> queryBooks();
+
+    /**
+     * 查询总记录数
+     * @return  返回总记录数
+     */
+    Integer queryForPageTotalCount();
+
+    /**
+     * 获得当前页的书
+     * @param begin
+     * @param pageSize
+     * @return  返回当前页包含的书的集合
+     */
+    List<Book> queryForItems(Integer begin,Integer pageSize);
 }

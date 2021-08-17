@@ -1,6 +1,7 @@
 package com.louis.web;
 
 import com.louis.bean.Book;
+import com.louis.bean.Page;
 import com.louis.bean.User;
 import com.louis.service.impl.BookServiceImpl;
 import com.louis.utils.WebUtils;
@@ -15,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @赖小燚
@@ -121,5 +120,32 @@ public class BookServlet extends BaseServlet{
         Book book = bookService.queryBookById(id);
         request.setAttribute("book",book);
         request.getRequestDispatcher("/pages/manager/book_edit.jsp").forward(request,response);
+    }
+
+    /**
+     * 分页功能
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void page(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer pageNo = WebUtils.parseInt(request.getParameter("pageNo"),1);
+        Integer pageSize = WebUtils.parseInt(request.getParameter("pageSize"),Page.PAGE_SIZE);
+        Map<String,String[]> map = request.getParameterMap();
+        Set<Map.Entry<String,String[]>> entrys = map.entrySet();
+        Iterator<Map.Entry<String,String[]>> iterator = entrys.iterator();
+        System.out.println(request.getRequestURL());
+        while (iterator.hasNext()){
+            Map.Entry<String,String[]> entry = iterator.next();
+            System.out.println(entry.getKey()+"==="+entry.getValue()[0]);
+        }
+        System.out.println("当前页:"+pageNo);
+        Page<Book> page = bookService.page(pageNo,pageSize);
+        System.out.println(1);
+        request.setAttribute("page",page);
+        System.out.println(2);
+        request.getRequestDispatcher("/manager/book?action=list").forward(request,response);
+        System.out.println(3);
     }
 }

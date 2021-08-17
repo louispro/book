@@ -34,6 +34,8 @@ public abstract class BaseDao {
             return queryRunner.update(connection,sql,args);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            JDBCUtils.close(connection);
         }
         return -1;
     }
@@ -52,6 +54,8 @@ public abstract class BaseDao {
             return queryRunner.query(conn,sql,new BeanHandler<T>(type),args);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            JDBCUtils.close(conn);
         }
         return null;
     }
@@ -86,6 +90,8 @@ public abstract class BaseDao {
             return queryRunner.query(conn,sql,new ScalarHandler<>(),args);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            JDBCUtils.close(conn);
         }
         return null;
     }

@@ -42,4 +42,18 @@ public class BookDaoImplTest {
             System.out.println(book);
         }
     }
+
+    @Test
+    public void queryForPageTotalCount() {
+        Integer pageTotalCount = bookDao.queryForPageTotalCount();
+        System.out.println(pageTotalCount);
+    }
+
+    @Test
+    public void queryForItems() {
+        List<Book> items = bookDao.queryForItems(4,4);
+        for (Book book : items) {
+            System.out.println(book);
+        }
+    }
 }

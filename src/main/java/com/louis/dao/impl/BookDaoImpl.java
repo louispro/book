@@ -1,6 +1,7 @@
 package com.louis.dao.impl;
 
 import com.louis.bean.Book;
+import com.louis.bean.Page;
 import com.louis.dao.BookDao;
 
 import java.util.List;
@@ -40,4 +41,26 @@ public class BookDaoImpl extends BaseDao implements BookDao {
         String sql = "select * from books";
         return queryForList(Book.class,sql);
     }
+
+    @Override
+    public Integer queryForPageTotalCount() {
+        String sql = "select count(*) from books";
+        Number pageTotalCount = (Number) queryForSingleValue(sql);
+        return pageTotalCount.intValue();
+    }
+
+    /**
+     * 获得当前页的书
+     *
+     * @param begin
+     * @param pageSize
+     * @return 返回当前页包含的书的集合
+     */
+    @Override
+    public List<Book> queryForItems(Integer begin, Integer pageSize) {
+        String sql = "SELECT * FROM books LIMIT ?,?";
+        List<Book> items = queryForList(Book.class,sql,begin,pageSize);
+        return items;
+    }
+
 }
