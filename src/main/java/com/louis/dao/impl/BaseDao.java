@@ -74,6 +74,8 @@ public abstract class BaseDao {
             return queryRunner.query(conn,sql,new BeanListHandler<T>(type),args);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }finally {
+            JDBCUtils.close(conn);
         }
         return null;
     }

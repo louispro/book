@@ -29,6 +29,7 @@
 		
 		<div id="main" style="width:1400px">
 			<form action="manager/book?action=${requestScope.book==null?"add":"update"}" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="pageNo" value="${param.pageNo}">
 				<input type="hidden" name="id" value="${requestScope.book.id}">
 				<table>
 					<tr>

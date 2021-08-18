@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileDeleteStrategy;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,13 +51,15 @@ public class BookServlet extends BaseServlet{
                         System.out.println("表单项的name属性值："+fileItem.getFieldName());
                         System.out.println("上传的文件名："+fileItem.getName());
                         map.put(fileItem.getFieldName(),fileItem.getName());
-                        fileItem.write(new File("D:\\Codes\\JavaCode\\Book\\src\\main\\webapp\\static\\img\\book\\"+fileItem.getName()));
+                        fileItem.write(new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName()));
                     }
                 }
                 Book book = WebUtils.copyParamsToBean(map,new Book());
+                Integer pageNo = WebUtils.parseInt(map.get("pageNo"),1);
+                pageNo+=1;
                 System.out.println(book);
                 bookService.addBook(book);
-                response.sendRedirect(request.getContextPath()+"/manager/book?action=list");
+                response.sendRedirect(request.getContextPath()+"/manager/book?action=page&pageNo="+pageNo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -66,8 +69,9 @@ public class BookServlet extends BaseServlet{
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = Integer.parseInt(request.getParameter("id"));
         bookService.deleteBookById(id);
-        response.sendRedirect(request.getContextPath()+"/manager/book?action=list");
-        File image = new File("D:\\Codes\\JavaCode\\Book\\src\\main\\webapp\\static\\img\\book\\"+request.getParameter("imageUrl"));
+        Integer pageNo = WebUtils.parseInt(request.getParameter("pageNo"),1);
+        response.sendRedirect(request.getContextPath()+"/manager/book?action=page&pageNo="+pageNo);
+        File image = new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+request.getParameter("imageUrl"));
         boolean delete = image.delete();
         System.out.println(delete);
     }
@@ -93,22 +97,23 @@ public class BookServlet extends BaseServlet{
                         System.out.println("表单项的name属性值："+fileItem.getFieldName());
                         System.out.println("上传的文件名："+fileItem.getName());
                         map.put(fileItem.getFieldName(),fileItem.getName());
-                        //无论如何删除之前的照片
-                        File image = new File("D:\\Codes\\JavaCode\\Book\\src\\main\\webapp\\static\\img\\book\\"+fileItem.getName());
+                        File image = new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName());
                         image.delete();
-                        fileItem.write(new File("D:\\Codes\\JavaCode\\Book\\src\\main\\webapp\\static\\img\\book\\"+fileItem.getName()));
+                        fileItem.write(new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName()));
                     }
                 }
                 Book book = WebUtils.copyParamsToBean(map,new Book());
                 System.out.println(book);
                 bookService.updateBook(book);
-                response.sendRedirect(request.getContextPath()+"/manager/book?action=list");
+                Integer pageNo = WebUtils.parseInt(map.get("pageNo"),1);
+                response.sendRedirect(request.getContextPath()+"/manager/book?action=page&pageNo="+pageNo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    @Deprecated
     protected void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Book> bookList = bookService.queryBooks();
         request.setAttribute("bookList",bookList);
@@ -132,20 +137,17 @@ public class BookServlet extends BaseServlet{
     protected void page(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer pageNo = WebUtils.parseInt(request.getParameter("pageNo"),1);
         Integer pageSize = WebUtils.parseInt(request.getParameter("pageSize"),Page.PAGE_SIZE);
-        Map<String,String[]> map = request.getParameterMap();
-        Set<Map.Entry<String,String[]>> entrys = map.entrySet();
-        Iterator<Map.Entry<String,String[]>> iterator = entrys.iterator();
-        System.out.println(request.getRequestURL());
-        while (iterator.hasNext()){
-            Map.Entry<String,String[]> entry = iterator.next();
-            System.out.println(entry.getKey()+"==="+entry.getValue()[0]);
-        }
-        System.out.println("当前页:"+pageNo);
+        System.out.println(0);
+        //获取页面page对象
         Page<Book> page = bookService.page(pageNo,pageSize);
+        //后端校验访问页码的合法性
+        if(pageNo < 1)
+            page.setPageNo(1);
+        if(pageNo > page.getPageTotal())
+            page.setPageNo(page.getPageTotal());
         System.out.println(1);
         request.setAttribute("page",page);
         System.out.println(2);
-        request.getRequestDispatcher("/manager/book?action=list").forward(request,response);
-        System.out.println(3);
+        request.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(request,response);
     }
 }
