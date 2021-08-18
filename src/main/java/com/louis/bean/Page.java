@@ -14,6 +14,7 @@ public class Page<T> {
     private Integer pageTotal;  //总页码数
     private Integer pageSize = PAGE_SIZE;   //每页的数量
     private List<T> items;   //当前页包含的书
+    private String url; //当前页的访问地址
 
     public Page() {
     }
@@ -66,6 +67,14 @@ public class Page<T> {
         this.pageTotal = pageTotal;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "Page{" +
@@ -74,6 +83,7 @@ public class Page<T> {
                 ", pageTotal=" + pageTotal +
                 ", pageSize=" + pageSize +
                 ", items=" + items +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

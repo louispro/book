@@ -54,4 +54,8 @@ public interface BookDao {
      * @return  返回当前页包含的书的集合
      */
     List<Book> queryForItems(Integer begin,Integer pageSize);
+
+    Integer queryForPageTotalCountByPrice(Integer min,Integer max);
+
+    List<Book> queryForItemsByPrice(Integer begin, Integer pageSize, Integer min, Integer max);
 }

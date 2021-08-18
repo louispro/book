@@ -56,4 +56,18 @@ public class BookDaoImplTest {
             System.out.println(book);
         }
     }
+
+    @Test
+    public void queryForPageTotalCountByPrice() {
+        Integer count = bookDao.queryForPageTotalCountByPrice(50,100);
+        System.out.println(count);
+    }
+
+    @Test
+    public void queryForItemsByPrice() {
+        List<Book> items = bookDao.queryForItemsByPrice(4,4,50,300);
+        for (Book book : items) {
+            System.out.println(book);
+        }
+    }
 }

@@ -50,6 +50,15 @@
     <servlet-name>BookServlet</servlet-name>
     <url-pattern>/manager/book</url-pattern>
   </servlet-mapping>
-
+  
+  <!--服务器-->
+  <servlet>
+    <servlet-name>ClientBookServlet</servlet-name>
+    <servlet-class>com.louis.web.ClientBookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ClientBookServlet</servlet-name>
+    <url-pattern>/client/bookServlet</url-pattern>
+  </servlet-mapping>
 
 </web-app>

@@ -49,4 +49,10 @@ public class BookServiceImplTest {
         Page<Book> page = bookService.page(1,4);
         System.out.println(page);
     }
+
+    @Test
+    public void pageByPrice() {
+        Page<Book> page = bookService.pageByPrice(2,4,50,300);
+        System.out.println(page);
+    }
 }

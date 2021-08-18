@@ -51,7 +51,7 @@ public class BookServlet extends BaseServlet{
                         System.out.println("表单项的name属性值："+fileItem.getFieldName());
                         System.out.println("上传的文件名："+fileItem.getName());
                         map.put(fileItem.getFieldName(),fileItem.getName());
-                        fileItem.write(new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName()));
+                        fileItem.write(new File("D:\\Codes\\JavaCode\\Book\\src\\main\\webapp\\static\\img\\book\\"+fileItem.getName()));
                     }
                 }
                 Book book = WebUtils.copyParamsToBean(map,new Book());
@@ -71,9 +71,7 @@ public class BookServlet extends BaseServlet{
         bookService.deleteBookById(id);
         Integer pageNo = WebUtils.parseInt(request.getParameter("pageNo"),1);
         response.sendRedirect(request.getContextPath()+"/manager/book?action=page&pageNo="+pageNo);
-        File image = new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+request.getParameter("imageUrl"));
-        boolean delete = image.delete();
-        System.out.println(delete);
+        //暂不删除文件
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,9 +95,7 @@ public class BookServlet extends BaseServlet{
                         System.out.println("表单项的name属性值："+fileItem.getFieldName());
                         System.out.println("上传的文件名："+fileItem.getName());
                         map.put(fileItem.getFieldName(),fileItem.getName());
-                        File image = new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName());
-                        image.delete();
-                        fileItem.write(new File("C:\\Users\\louis_lai\\Desktop\\DeskTemp\\resources\\static\\img\\book\\"+fileItem.getName()));
+                        //不更新图片
                     }
                 }
                 Book book = WebUtils.copyParamsToBean(map,new Book());
@@ -137,7 +133,6 @@ public class BookServlet extends BaseServlet{
     protected void page(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer pageNo = WebUtils.parseInt(request.getParameter("pageNo"),1);
         Integer pageSize = WebUtils.parseInt(request.getParameter("pageSize"),Page.PAGE_SIZE);
-        System.out.println(0);
         //获取页面page对象
         Page<Book> page = bookService.page(pageNo,pageSize);
         //后端校验访问页码的合法性
@@ -145,9 +140,7 @@ public class BookServlet extends BaseServlet{
             page.setPageNo(1);
         if(pageNo > page.getPageTotal())
             page.setPageNo(page.getPageTotal());
-        System.out.println(1);
         request.setAttribute("page",page);
-        System.out.println(2);
         request.getRequestDispatcher("/pages/manager/book_manager.jsp").forward(request,response);
     }
 }
