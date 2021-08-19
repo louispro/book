@@ -7,6 +7,7 @@ import com.louis.utils.WebUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -55,7 +56,14 @@ public class UserServlet extends BaseServlet{
             request.setAttribute("password",password);
             request.getRequestDispatcher("/pages/user/login.jsp").forward(request,response);
         }else {
+            HttpSession session = request.getSession();
+            session.setAttribute("user",user);  // 将用户信息保存到session中
             request.getRequestDispatcher("/pages/user/login_success.jsp").forward(request,response);
         }
+    }
+
+    protected void logout(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        request.getSession().invalidate();  //注销session信息
+        response.sendRedirect(request.getContextPath()+"/pages/user/login.jsp");
     }
 }

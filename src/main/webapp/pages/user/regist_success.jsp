@@ -19,7 +19,7 @@
 </head>
 <body>
 		<div id="header">
-				<img class="logo_img" alt="" src="static/img/logo.gif" >
+				<img class="logo_img" alt="" src="static/img/logo.png" >
 				<span class="wel_word"></span>
 				<%@ include file="/pages/common/login_success_menu.jsp"%>
 		</div>
