@@ -95,6 +95,8 @@
       <artifactId>commons-fileupload</artifactId>
       <version>1.4</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.code/kaptcha -->
+
   </dependencies>
 
   <build>

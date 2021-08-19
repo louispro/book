@@ -11,7 +11,7 @@
                         "://" + request.getServerName() +
                         ":" + request.getServerPort() +
                         request.getContextPath() +
-                        "/";
+                        "/" ;
 %>
 
 <meta charset="UTF-8">

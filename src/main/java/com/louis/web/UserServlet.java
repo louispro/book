@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * @赖小燚
  * @www.louis_lai.com
@@ -19,13 +21,17 @@ public class UserServlet extends BaseServlet{
     private UserServiceImpl userService = new UserServiceImpl();
 
     protected void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //获取session中的验证码
+        String token = (String)request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        System.out.println(token);
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
         //获取参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         String code = request.getParameter("code");
         //验证码正确就检查用户名是否可用
-        if("abcde".equalsIgnoreCase(code)){
+        if(token.equalsIgnoreCase(code)){
             //验证用户名是否可用
             //可用
             if(userService.existsUsername(username)==false){
