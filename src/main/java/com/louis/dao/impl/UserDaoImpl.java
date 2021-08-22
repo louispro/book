@@ -10,7 +10,7 @@ import com.louis.dao.UserDao;
 public class UserDaoImpl extends BaseDao implements UserDao {
     @Override
     public User queryUserByUsername(String username) {
-        String sql = "select `id`,`username`,`password`,`email` from `user` where `username`=?";
+        String sql = "select `id`,`username`,`password`,`email`,`cartId` from `user` where `username`=?";
         return queryForOne(User.class,sql,username);
     }
 
@@ -22,8 +22,8 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 
     @Override
     public int saveUser(User user) {
-        String sql = "INSERT INTO `user`(`username`,`password`,`email`) VALUES\n" +
-                "(?,?,?)";
-        return update(sql,user.getUsername(),user.getPassword(),user.getEmail());
+        String sql = "INSERT INTO `user`(`username`,`password`,`email`,`cartId`) VALUES\n" +
+                "(?,?,?,?)";
+        return update(sql,user.getUsername(),user.getPassword(),user.getEmail(),user.getCartId());
     }
 }

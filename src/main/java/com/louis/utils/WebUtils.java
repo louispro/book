@@ -1,11 +1,14 @@
 package com.louis.utils;
 
+import com.louis.bean.Book;
+import com.louis.bean.Good;
 import com.mchange.v2.beans.BeansUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @赖小燚
@@ -28,5 +31,28 @@ public class WebUtils {
         if(param==null)
             return defaultValue;
         return Integer.parseInt(param);
+    }
+
+    public static void getUUID(){
+        for(int i = 0; i < 5; i++){
+            System.out.println(UUID.randomUUID().toString());
+        }
+    }
+
+    /**
+     * 将图书转换为商品
+     * @param cartId
+     * @param book
+     * @return
+     */
+    public static Good bookToGood(String cartId, Book book) {
+        Good good = new Good();
+        good.setCartId(cartId);
+        good.setGoodId(book.getId());
+        good.setGoodName(book.getName());
+        good.setGoodCount(1);
+        good.setGoodPrice(book.getPrice());
+        good.setTotalPrice(book.getPrice());
+        return good;
     }
 }

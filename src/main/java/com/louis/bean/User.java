@@ -9,15 +9,26 @@ public class User {
     private String username;
     private String password;
     private String email;
+    //购物车唯一id
+    private String cartId;
 
     public User() {
     }
 
-    public User(Integer id, String username, String password, String email) {
+    public User(Integer id, String username, String password, String email, String cartId) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.cartId = cartId;
+    }
+
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
     public Integer getId() {
@@ -59,6 +70,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", cartId='" + cartId + '\'' +
                 '}';
     }
 }

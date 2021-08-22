@@ -1,5 +1,6 @@
 package com.louis.service;
 
+import com.louis.bean.Cart;
 import com.louis.bean.User;
 
 /**
@@ -27,4 +28,6 @@ public interface UserService {
      * @return
      */
     boolean existsUsername(String username);
+
+    Cart getCart(String cartId);
 }

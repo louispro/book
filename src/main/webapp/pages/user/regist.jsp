@@ -98,7 +98,6 @@
 	</style>
 	</head>
 	<body>
-	<%= basePath%>
 		<div id="login_header">
 			<img class="logo_img" alt="" src="static/img/logo.png" >
 		</div>

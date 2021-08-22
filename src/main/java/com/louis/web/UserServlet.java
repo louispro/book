@@ -1,5 +1,6 @@
 package com.louis.web;
 
+import com.louis.bean.Cart;
 import com.louis.bean.User;
 import com.louis.service.impl.UserServiceImpl;
 import com.louis.utils.WebUtils;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
@@ -36,7 +38,9 @@ public class UserServlet extends BaseServlet{
             //可用
             if(userService.existsUsername(username)==false){
                 User user = WebUtils.copyParamsToBean(request.getParameterMap(),new User());
+                user.setCartId(UUID.randomUUID().toString());
                 userService.register(user);
+                request.getSession().setAttribute("user",user);
                 request.getRequestDispatcher("/pages/user/regist_success.jsp").forward(request,response);
             }else{
                 //不可用
@@ -62,8 +66,10 @@ public class UserServlet extends BaseServlet{
             request.setAttribute("password",password);
             request.getRequestDispatcher("/pages/user/login.jsp").forward(request,response);
         }else {
+            Cart cart = userService.getCart(user.getCartId());
             HttpSession session = request.getSession();
             session.setAttribute("user",user);  // 将用户信息保存到session中
+            session.setAttribute("cart",cart);
             request.getRequestDispatcher("/pages/user/login_success.jsp").forward(request,response);
         }
     }
