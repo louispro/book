@@ -30,8 +30,8 @@
         <!--如果用户信息不空-->
         <c:if test="${not empty sessionScope.user}">
             <span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
-            <a href="order/order.html">我的订单</a>
-            <a href="index.jsp">注销</a>&nbsp;
+            <a href="pages/order/order.jsp">我的订单</a>
+            <a href="user?action=logout">注销</a>&nbsp;
         </c:if>
         <!--未登录则跳转到登录界面-->
         <a href="${sessionScope.user==null?"pages/user/login.jsp":"pages/cart/cart.jsp"}">购物车</a>
@@ -49,9 +49,9 @@
             </form>
         </div>
         <div style="text-align: center">
-            <span>您的购物车中有3件商品</span>
+            <span>您的购物车中有${sessionScope.cart.totalCount}件商品</span>
             <div>
-                您刚刚将<span style="color: red">时间简史</span>加入到了购物车中
+                您刚刚将<span style="color: red">${sessionScope.lastGood}</span>加入到了购物车中
             </div>
         </div>
 

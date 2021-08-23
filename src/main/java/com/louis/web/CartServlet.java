@@ -33,6 +33,7 @@ public class CartServlet extends BaseServlet {
         if(goodExists == false){
             cartService.addItems(cart,good);
         }
+        session.setAttribute("lastGood",good.getGoodName());
         response.sendRedirect(request.getContextPath()+"/client/bookServlet?action=page&pageNo="+pageNo);
     }
 
@@ -47,11 +48,21 @@ public class CartServlet extends BaseServlet {
     }
 
     protected void clear(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        cartService.clear((Cart) request.getSession().getAttribute("cart"));
+        Cart cart = (Cart) request.getSession().getAttribute("cart");
+        //购物车为空
+        if(cart != null){
+            cartService.clear(cart);
+        }
         response.sendRedirect(request.getContextPath()+"/pages/cart/cart.jsp");
     }
 
-    protected void updateCount(HttpServletRequest request,HttpServletResponse response){
-
+    protected void updateCount(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        Cart cart = (Cart) request.getSession().getAttribute("cart");
+        Integer goodId = Integer.parseInt(request.getParameter("goodId"));
+        Integer count = WebUtils.parseInt(request.getParameter("count"),1);
+        Good good = cartService.getGood(cart.getCartId(),goodId);
+        cartService.update(cart,good,count);
+        System.out.println(cart);
+        response.sendRedirect(request.getContextPath()+"/pages/cart/cart.jsp");
     }
 }

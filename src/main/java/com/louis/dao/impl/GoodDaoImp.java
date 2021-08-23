@@ -72,7 +72,7 @@ public class GoodDaoImp extends BaseDao implements GoodDao {
      */
     @Override
     public int updateGood(String cartId, Integer goodId,Integer count) {
-        String sql = "update good set goodCount=goodCount+?,totalPrice=totalPrice+goodPrice*? where cartId = ? and goodId = ?";
+        String sql = "update good set goodCount=?,totalPrice=goodPrice*? where cartId = ? and goodId = ?";
         return  update(sql,count,count,cartId,goodId);
     }
 }

@@ -16,20 +16,23 @@ public class CartServiceImpl implements CartService {
     private GoodServiceImpl goodService = new GoodServiceImpl();
 
 
-    @Override
-    public Cart initCart(String cartId) {
-        Cart cart = new Cart();
-        cart.setCartId(cartId);
-        List<Good> items = goodService.getAllGoodsByCartId(cartId);
+    public void updateCountAndPrice(Cart cart){
         Integer totalCount = 0;
         BigDecimal totalPrice = new BigDecimal(0);
-        for (Good good : items) {
+        for(Good good : cart.getItems()){
             totalCount += good.getGoodCount();
             totalPrice = totalPrice.add(good.getTotalPrice());
         }
         cart.setTotalCount(totalCount);
         cart.setTotalPrice(totalPrice);
+    }
+    @Override
+    public Cart initCart(String cartId) {
+        Cart cart = new Cart();
+        cart.setCartId(cartId);
+        List<Good> items = goodService.getAllGoodsByCartId(cartId);
         cart.setItems(items);
+        updateCountAndPrice(cart);
         return cart;
     }
 
@@ -71,9 +74,6 @@ public class CartServiceImpl implements CartService {
         items.remove(i);
         cart.setTotalCount(cart.getTotalCount()-good.getGoodCount());
         cart.setTotalPrice(cart.getTotalPrice().subtract(good.getTotalPrice()));
-        for (Good item : cart.getItems()) {
-            System.out.println(item);
-        }
         int delete = goodService.deleteGood(cart.getCartId(),good.getGoodId());
         return delete;
     }
@@ -104,15 +104,18 @@ public class CartServiceImpl implements CartService {
     @Override
     public int update(Cart cart, Good good,Integer count) {
         int update = goodService.update(cart.getCartId(),good,count);
-        cart.setTotalCount(cart.getTotalCount()+count);
-        cart.setTotalPrice(cart.getTotalPrice().add(good.getGoodPrice().multiply(new BigDecimal(count))));
         List<Good> items = cart.getItems();
+        int i = 0;
         for (Good item : items) {
             if(item.getGoodId().equals(good.getGoodId())){
-                item.setGoodCount(item.getGoodCount()+count);
-                item.setTotalPrice(item.getTotalPrice().add(item.getGoodPrice().multiply(new BigDecimal(count))));
+                break;
             }
+            i++;
         }
+        Good good1 = items.get(i);
+        good1.setGoodCount(count);
+        good1.setTotalPrice(good1.getGoodPrice().multiply(new BigDecimal(count)));
+        updateCountAndPrice(cart);
         return update;
     }
 
