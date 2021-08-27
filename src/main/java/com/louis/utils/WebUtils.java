@@ -2,6 +2,7 @@ package com.louis.utils;
 
 import com.louis.bean.Book;
 import com.louis.bean.Good;
+import com.louis.bean.OrderItem;
 import com.mchange.v2.beans.BeansUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.DbUtils;
@@ -54,5 +55,20 @@ public class WebUtils {
         good.setGoodPrice(book.getPrice());
         good.setTotalPrice(book.getPrice());
         return good;
+    }
+
+    /**
+     * 将商品对象转换成订单对象
+     * @return
+     */
+    public static OrderItem goodToOrdetItem(Good good,String orderId){
+        OrderItem orderItem = new OrderItem();
+        orderItem.setGoodId(good.getGoodId());
+        orderItem.setGoodName(good.getGoodName());
+        orderItem.setCount(good.getGoodCount());
+        orderItem.setPrice(good.getGoodPrice());
+        orderItem.setTotalPrice(good.getTotalPrice());
+        orderItem.setOrderId(orderId);
+        return orderItem;
     }
 }

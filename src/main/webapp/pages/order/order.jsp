@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" language="java"%>
 <html>
@@ -19,7 +20,7 @@
 			<span class="wel_word">我的订单</span>
 			<div>
 				<span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
-				<a href="pages/order/order.jsp">我的订单</a>
+				<a href="order?action=showMyOrders">我的订单</a>
 				<a href="user?action=logout">注销</a>&nbsp;&nbsp;
 				<a href="client/bookServlet?action=page">返回</a>
 			</div>
@@ -35,25 +36,19 @@
 				<td>详情</td>
 			</tr>		
 			<tr>
-				<td>2015.04.23</td>
-				<td>90.00</td>
-				<td>未发货</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>	
-			
-			<tr>
-				<td>2015.04.20</td>
-				<td>20.00</td>
-				<td>已发货</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>	
-			
-			<tr>
-				<td>2014.01.23</td>
-				<td>190.00</td>
-				<td>已完成</td>
-				<td><a href="#">查看详情</a></td>
-			</tr>		
+				<c:forEach items="${requestScope.orders}" var="order">
+					<td>${order.createTime}</td>
+					<td>${order.price}</td>
+					<td>
+						<c:choose>
+							<c:when test="${order.status==0}">未发货</c:when>
+							<c:when test="${order.status==1}">已发货</c:when>
+							<c:otherwise>已签收</c:otherwise>
+						</c:choose>
+					</td>
+					<td><a href="order?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
+				</c:forEach>
+			</tr>
 		</table>
 		
 	

@@ -52,7 +52,7 @@
 			<span class="wel_word">购物车</span>
 			<div>
 				<span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
-				<a href="pages/order/order.jsp">我的订单</a>
+				<a href="order?action=showMyOrders">我的订单</a>
 				<a href="user?action=logout">注销</a>&nbsp;&nbsp;
 				<a href="client/bookServlet?action=page">返回</a>
 			</div>
@@ -100,7 +100,7 @@
 					<span class="cart_span">购物车中共有<span class="b_count">${sessionScope.cart.totalCount}</span>件商品</span>
 					<span class="cart_span">总金额<span class="b_price">${sessionScope.cart.totalPrice}</span>元</span>
 					<span class="cart_span"><a id="clearCart" href="cart?action=clear&cartId=${sessionScope.cart.cartId}">清空购物车</a></span>
-					<span class="cart_span"><a href="pages/cart/checkout.jsp">去结账</a></span>
+					<span class="cart_span"><a href="order?action=createOrder">去结账</a></span>
 				</div>
 
 			</div>

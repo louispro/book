@@ -30,7 +30,7 @@
         <!--如果用户信息不空-->
         <c:if test="${not empty sessionScope.user}">
             <span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
-            <a href="pages/order/order.jsp">我的订单</a>
+            <a href="order?action=showMyOrders">我的订单</a>
             <a href="user?action=logout">注销</a>&nbsp;
         </c:if>
         <!--未登录则跳转到登录界面-->

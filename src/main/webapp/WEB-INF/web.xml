@@ -81,4 +81,14 @@
     <servlet-name>CartServlet</servlet-name>
     <url-pattern>/cart</url-pattern>
   </servlet-mapping>
+
+  <!--订单-->
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>com.louis.web.OrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/order</url-pattern>
+  </servlet-mapping>
 </web-app>
