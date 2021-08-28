@@ -1,9 +1,8 @@
 package com.louis.service.impl;
 
-import com.louis.bean.Cart;
-import com.louis.bean.Good;
-import com.louis.bean.Order;
-import com.louis.bean.OrderItem;
+import com.louis.bean.*;
+import com.louis.dao.impl.BookDaoImpl;
+import com.louis.dao.impl.GoodDaoImp;
 import com.louis.dao.impl.OrderDaoImpl;
 import com.louis.dao.impl.OrderItemDaoImpl;
 import com.louis.service.OrderService;
@@ -21,6 +20,8 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDaoImpl orderDao = new OrderDaoImpl();
     private OrderItemDaoImpl orderItemDao = new OrderItemDaoImpl();
+    private GoodDaoImp goodDaoImp = new GoodDaoImp();
+    private BookDaoImpl bookDao = new BookDaoImpl();
 
     /**
      * 生成订单
@@ -42,6 +43,13 @@ public class OrderServiceImpl implements OrderService {
         for (Good good : cart.getItems()) {
             OrderItem orderItem = WebUtils.goodToOrdetItem(good,orderId);
             orderItemDao.saveOrderItem(orderItem);
+            Book book1 = bookDao.queryBookById(good.getGoodId());
+            //更新销量
+            book1.setSale(book1.getSale()+good.getGoodCount());
+            //更新库存
+            book1.setStock(book1.getStock()-good.getGoodCount());
+            //保存变更
+            bookDao.updateBook(book1);
         }
         return orderDao.saveOrder(order);
     }

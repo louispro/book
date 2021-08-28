@@ -34,21 +34,21 @@
 				<td>金额</td>
 				<td>状态</td>
 				<td>详情</td>
-			</tr>		
-			<tr>
-				<c:forEach items="${requestScope.orders}" var="order">
-					<td>${order.createTime}</td>
-					<td>${order.price}</td>
-					<td>
-						<c:choose>
-							<c:when test="${order.status==0}">未发货</c:when>
-							<c:when test="${order.status==1}">已发货</c:when>
-							<c:otherwise>已签收</c:otherwise>
-						</c:choose>
-					</td>
-					<td><a href="order?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
-				</c:forEach>
 			</tr>
+				<c:forEach items="${requestScope.orders}" var="order">
+					<tr>
+						<td>${order.createTime}</td>
+						<td>${order.price}</td>
+						<td>
+							<c:choose>
+								<c:when test="${order.status==0}">未发货</c:when>
+								<c:when test="${order.status==1}">已发货</c:when>
+								<c:otherwise>已签收</c:otherwise>
+							</c:choose>
+						</td>
+						<td><a href="order?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td
+					</tr>
+				</c:forEach>
 		</table>
 		
 	

@@ -18,7 +18,7 @@
   >
   > 验证码解决表单重复提交原理
   >
-  > ![image-20210819102039773](README.assets/image-20210819102039773.png)
+  > <img src="http://ww1.sinaimg.cn/large/006gOimwgy1gtw9fuyd7wj315y0hjn5g.jpg"/>
   >
   > 谷歌验证码依赖
   >
