@@ -1,5 +1,6 @@
 package com.louis.web;
 
+import com.google.gson.Gson;
 import com.louis.bean.Book;
 import com.louis.bean.Cart;
 import com.louis.bean.Good;
@@ -13,6 +14,8 @@ import com.louis.utils.WebUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartServlet extends BaseServlet {
 
@@ -33,8 +36,14 @@ public class CartServlet extends BaseServlet {
         if(goodExists == false){
             cartService.addItems(cart,good);
         }
-        session.setAttribute("lastGood",good.getGoodName());
-        response.sendRedirect(request.getContextPath()+"/client/bookServlet?action=page&pageNo="+pageNo);
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("totalCount",cart.getTotalCount());
+        resultMap.put("goodName",good.getGoodName());
+        Gson gson = new Gson();
+        String json = gson.toJson(resultMap);
+        response.getWriter().write(json);
+//        session.setAttribute("lastGood",good.getGoodName());
+//        response.sendRedirect(request.getContextPath()+"/client/bookServlet?action=page&pageNo="+pageNo);
     }
 
 

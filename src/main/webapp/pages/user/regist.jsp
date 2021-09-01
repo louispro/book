@@ -8,6 +8,19 @@
 		<script type="text/javascript">
 			// 页面加载完成之后
 			$(function () {
+				$("#username").blur(function(){
+					//通过ajax验证用户名是否可用
+					//绑定输入框失去焦点事件
+					var username = this.value;
+					$.getJSON("http://localhost:8080/book/user","action=ajaxExistUsername&username="+username,function (data){
+						if(data.existUsername == true){
+							$("span.errorMsg").text("用户名已存在")
+						}else{
+							$("span.errorMsg").text("用户名可用")
+						}
+					})
+				})
+
 				//给图片绑定单击事件
 				$("#imgBtn").click(function(){
 					this.src = "/book/kaptcha.jpg?d="+new Date();

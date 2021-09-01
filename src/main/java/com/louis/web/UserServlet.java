@@ -1,5 +1,6 @@
 package com.louis.web;
 
+import com.google.gson.Gson;
 import com.louis.bean.Cart;
 import com.louis.bean.User;
 import com.louis.service.impl.UserServiceImpl;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
@@ -21,6 +24,19 @@ import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 public class UserServlet extends BaseServlet{
 
     private UserServiceImpl userService = new UserServiceImpl();
+
+    //验证用户名是否存在
+    protected void ajaxExistUsername(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String username =  request.getParameter("username");
+        System.out.println(username);
+        boolean existUsername = userService.existsUsername(username);
+        System.out.println(existUsername);
+        Map<String,Boolean> resultMap = new HashMap<>();
+        resultMap.put("existUsername",existUsername);
+        Gson gosn = new Gson();
+        String json = gosn.toJson(resultMap);
+        response.getWriter().write(json);
+    }
 
     protected void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取session中的验证码
@@ -34,19 +50,12 @@ public class UserServlet extends BaseServlet{
         String code = request.getParameter("code");
         //验证码正确就检查用户名是否可用
         if(token.equalsIgnoreCase(code)){
-            //验证用户名是否可用
             //可用
-            if(userService.existsUsername(username)==false){
-                User user = WebUtils.copyParamsToBean(request.getParameterMap(),new User());
-                user.setCartId(UUID.randomUUID().toString());
-                userService.register(user);
-                request.getSession().setAttribute("user",user);
-                request.getRequestDispatcher("/pages/user/regist_success.jsp").forward(request,response);
-            }else{
-                //不可用
-                request.setAttribute("msg","用户名已存在");
-                request.getRequestDispatcher("/pages/user/regist.jsp").forward(request,response);
-            }
+            User user = WebUtils.copyParamsToBean(request.getParameterMap(),new User());
+            user.setCartId(UUID.randomUUID().toString());
+            userService.register(user);
+            request.getSession().setAttribute("user",user);
+            request.getRequestDispatcher("/pages/user/regist_success.jsp").forward(request,response);
         }else{
             //验证码错误，重新注册
             request.setAttribute("msg","验证码错误");
