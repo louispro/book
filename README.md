@@ -1,5 +1,5 @@
 # book
-**基于javaweb的书城项目，适合于新手入门巩固基础。**
+**基于`javaweb`的书城项目，适合于新手入门巩固基础。**
 **此文档讲简要介绍整个项目中难度较高的需求的实现**
 
 - #### 用户登录信息回显
@@ -57,5 +57,79 @@
   
 - #### Filter实现后台权限管理
 
+  > 自定义的Filter类需要实现Filter接口。
+  >
+  > Filter生命周期：
+  >
+  > 1. 构造器方法
+  >
+  > 2. init初始化方法
+  >
+  >    第1，2步在web工程启动的时候执行
+  >
+  > 3. doFilter过滤方法
+  >
+  >    每次拦截到请求，就会执行
+  >
+  > 4. destory销毁
+  >
+  >    停止web工程的时候便执行
+  >
+  > 过滤器实现：
+  >
+  > ```java
+  > public class ManagerFilter implements Filter {
+  >     @Override
+  >     public void init(FilterConfig filterConfig) throws ServletException {
+  >     }
+  > 
+  >     @Override
+  >     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+  >         HttpServletRequest request = (HttpServletRequest) servletRequest;
+  >         User user = (User)request.getSession().getAttribute("user");
+  >         if(user==null){
+  >             request.getRequestDispatcher("/pages/user/login.jsp").forward(servletRequest,servletResponse);
+  >         }else {
+  >             filterChain.doFilter(servletRequest,servletResponse);
+  >         }
+  >     }
+  > 
+  >     @Override
+  >     public void destroy() {
+  >     }
+  > }
+  > ```
+  > 
+  >在web.xml中配置：
+  > 
+  >```xml
+  > <filter>
+  >   <filter-name>TransactionFilter</filter-name>
+  >   <filter-class>com.louis.filter.TransactionFilter</filter-class>
+  > </filter>
+  > <filter-mapping>
+  >   <filter-name>TransactionFilter</filter-name>
+  >   <!-- /* 表示当前工程下所有请求 -->
+  >   <url-pattern>/*</url-pattern>
+  > </filter-mapping>
+  > ```
+  > 
+  >
+  
+- #### 分页实现
+
+  > 分页是网页中常见的功能，在后台我们使用Page类来实现分页功能，这个类存储了和页码相关的内容，以及当前页的数据，其字段如下：
+  >
+  > ```java
+  >     public static final Integer PAGE_SIZE = 4;
+  > 
+  >     private Integer pageNo; //当前页码
+  >     private Integer pageTotalCount; //总记录数
+  >     private Integer pageTotal;  //总页码数
+  >     private Integer pageSize = PAGE_SIZE;   //每页的数量
+  >     private List<T> items;   //当前页包含的书
+  >     private String url; //当前页的访问地址
+  > ```
+  >
   > 
 
